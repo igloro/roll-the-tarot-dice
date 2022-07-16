@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Roll the tarot dice</title>
+	<link
+	href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+	rel="stylesheet"
+	/>
+	<link rel="stylesheet" href="styles.css" />
+
+	<script src="https://kit.fontawesome.com/6ca7df8e6f.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<style>
+
+
+html 
+{
+	width: 100%;
+	height: 100%;
+}
+
+body 
+{
+	width: 100%;
+	height: 100%;
+	background: rgb(147,57,15);
+	background: radial-gradient(circle, rgba(147,57,15,0.4770950616574755) 0%, rgba(147,57,15,1) 60%, rgba(0,0,0,1) 100%);
+
+	overflow: hidden;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+
+
+body section {
+
+	width: 608px;
+	margin: 100px auto 0px;
+	border: 1px solid #8e4012;
+	background: #954d2559;
+
+}
+
+.cube 
+{
+	width: 100px;
+	height: 100px;
+	float: left;
+	background-color: #3e1906;
+	margin-left: 1px;
+	margin-bottom: 1px;
+
+
+	position: relative;
+	transform-style: preserve-3d;
+	transform: translateZ(-100px);
+	transition: transform 1s;
+
+
+
+	opacity: 1;
+}
+
+.cube.focusout 
+{
+	opacity: 0;
+}
+
+.focus 
+{
+	opacity: 1;
+	background-color: #b5856a !important;
+}
+
+
+#roll {
+	cursor: pointer;
+}
+
+
+.cube.show-front  { transform: translateZ(-100px) rotateY(   0deg); }
+.cube.show-right  { transform: translateZ(-100px) rotateY( -90deg); }
+.cube.show-back   { transform: translateZ(-100px) rotateY(-180deg); }
+.cube.show-left   { transform: translateZ(-100px) rotateY(  90deg); }
+.cube.show-top    { transform: translateZ(-100px) rotateX( -90deg); }
+.cube.show-bottom { transform: translateZ(-100px) rotateX(  90deg); }
+
+.cube__face {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	color: white;
+	text-align: center;
+}
+
+.cube__face span 
+{
+	font-size: 11px;
+	margin-top: 43px;
+	display: block;
+}
+
+.cube__face--front  { background: #a96d1a; }
+.cube__face--right  { background: #a96d1a; }
+.cube__face--back   { background: #a96d1a; }
+.cube__face--left   { background: #a96d1a; }
+.cube__face--top    { background: #a96d1a; }
+.cube__face--bottom { background: #a96d1a; }
+
+.cube__face--front  { transform: rotateY(  0deg) translateZ(50px); }
+.cube__face--right  { transform: rotateY( 90deg) translateZ(50px); }
+.cube__face--back   { transform: rotateY(180deg) translateZ(50px); }
+.cube__face--left   { transform: rotateY(-90deg) translateZ(50px); }
+.cube__face--top    { transform: rotateX( 90deg) translateZ(50px); }
+.cube__face--bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+
+#results 
+{
+	text-align: center;
+	color: #FFF;
+	padding: 20px;
+}
+
+#results a 
+{
+	color: #ffcaaa;
+}
+
+#results_b {
+	font-size: 11px;
+	color: #FFF;
+	text-align: center;
+}
+
+#results_b a 
+{
+	color: #FFF;
+}
+
+#delete {
+	font-size: 11px;
+	margin-left: 20px;
+	display: block;
+	text-align: center;
+	color: #FFF;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+</style>
+
+
+<body>
+	<section id="tarot-dice">
+
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="2">Judgement</span></div>
+			<div class="cube__face cube__face--back"><span data-id="3">Sun</span></div>
+			<div class="cube__face cube__face--right"><span data-id="4">Moon</span></div>
+			<div class="cube__face cube__face--left"><span data-id="5">Star</span></div>
+			<div class="cube__face cube__face--top"><span data-id="6">Tower</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="7">Devil</span></div>
+		</div>
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="8">Temperance</span></div>
+			<div class="cube__face cube__face--back"><span data-id="9">Death</span></div>
+			<div class="cube__face cube__face--right"><span data-id="10">Hanged Man</span></div>
+			<div class="cube__face cube__face--left"><span data-id="11">Justice</span></div>
+			<div class="cube__face cube__face--top"><span data-id="12">Wheel of Fortune</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="13">Hermit</span></div>
+		</div>
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="14">Strength</span></div>
+			<div class="cube__face cube__face--back"><span data-id="15">Chariot</span></div>
+			<div class="cube__face cube__face--right"><span data-id="16">Lovers</span></div>
+			<div class="cube__face cube__face--left"><span data-id="17">Hierophant</span></div>
+			<div class="cube__face cube__face--top"><span data-id="18">Emperor</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="19">Empress</span></div>
+		</div>
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="20">High Priestess</span></div>
+			<div class="cube__face cube__face--back"><span data-id="21">Magician</span></div>
+			<div class="cube__face cube__face--right"><span data-id="22">Fool</span></div>
+			<div class="cube__face cube__face--left"><span data-id="24">Seven of Wands</span></div>
+			<div class="cube__face cube__face--top"><span data-id="25">Four of Wands</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="26">Ace of Wands</span></div>
+		</div>
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="27">Ten of Wands</span></div>
+			<div class="cube__face cube__face--back"><span data-id="28">Nine of Wands</span></div>
+			<div class="cube__face cube__face--right"><span data-id="29">Eight of Wands</span></div>
+			<div class="cube__face cube__face--left"><span data-id="30">Six of Wands</span></div>
+			<div class="cube__face cube__face--top"><span data-id="31">Five of Wands</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="32">Three of Wands</span></div>
+		</div>
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="33">Two of Wands</span></div>
+			<div class="cube__face cube__face--back"><span data-id="34">Page of Wands</span></div>
+			<div class="cube__face cube__face--right"><span data-id="35">Queen of Wands</span></div>
+			<div class="cube__face cube__face--left"><span data-id="36">King of Wands</span></div>
+			<div class="cube__face cube__face--top"><span data-id="37">Knight of Wands</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="38">King of Cups</span></div>
+		</div>
+
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="39">Queen of Cups</span></div>
+			<div class="cube__face cube__face--back"><span data-id="40">Knight of Cups</span></div>
+			<div class="cube__face cube__face--right"><span data-id="41">Page of Cups</span></div>
+			<div class="cube__face cube__face--left"><span data-id="42">Ten of Cups</span></div>
+			<div class="cube__face cube__face--top"><span data-id="43">Nine of Cups</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="44">Eight of Cups</span></div>
+		</div>
+
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="45">Seven of Cups</span></div>
+			<div class="cube__face cube__face--back"><span data-id="46">Six of Cups</span></div>
+			<div class="cube__face cube__face--right"><span data-id="47">Five of Cups</span></div>
+			<div class="cube__face cube__face--left"><span data-id="48">Four of Cups</span></div>
+			<div class="cube__face cube__face--top"><span data-id="49">Three of Cups</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="50">Two of Cups</span></div>
+		</div>
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="51">Ace of Cups</span></div>
+			<div class="cube__face cube__face--back"><span data-id="52">King of Swords</span></div>
+			<div class="cube__face cube__face--right"><span data-id="53">Knight of Swords</span></div>
+			<div class="cube__face cube__face--left"><span data-id="54">Queen of Swords</span></div>
+			<div class="cube__face cube__face--top"><span data-id="55">Page of Swords</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="56">Ten of Swords</span></div>
+		</div>
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="57">Nine of Swords</span></div>
+			<div class="cube__face cube__face--back"><span data-id="58">Eight of Swords</span></div>
+			<div class="cube__face cube__face--right"><span data-id="59">Seven of Swords</span></div>
+			<div class="cube__face cube__face--left"><span data-id="60">Six of Swords</span></div>
+			<div class="cube__face cube__face--top"><span data-id="61">Five of Swords</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="62">Three of Swords</span></div>
+		</div>
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="63">Four of Swords</span></div>
+			<div class="cube__face cube__face--back"><span data-id="64">Two of Swords</span></div>
+			<div class="cube__face cube__face--right"><span data-id="65">Ace of Swords</span></div>
+			<div class="cube__face cube__face--left"><span data-id="66">King of Pentacles</span></div>
+			<div class="cube__face cube__face--top"><span data-id="67">Queen of Pentacles</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="68">Knight of Pentacles</span></div>
+		</div>
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="69">Page of Pentacles</span></div>
+			<div class="cube__face cube__face--back"><span data-id="70">Ten of Pentacles</span></div>
+			<div class="cube__face cube__face--right"><span data-id="71">Nine of Pentacles</span></div>
+			<div class="cube__face cube__face--left"><span data-id="72">Eight of Pentacles</span></div>
+			<div class="cube__face cube__face--top"><span data-id="73">Seven of Pentacles</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="74">Six of Pentacles</span></div>
+		</div>
+
+		<div class="cube">
+			<div class="cube__face cube__face--front"><span data-id="75">Five of Pentacles</span></div>
+			<div class="cube__face cube__face--back"><span data-id="76">Four of Pentacles</span></div>
+			<div class="cube__face cube__face--right"><span data-id="77">Three of Pentacles</span></div>
+			<div class="cube__face cube__face--left"><span data-id="78">Two of Pentacles</span></div>
+			<div class="cube__face cube__face--top"><span data-id="79">Ace of Pentacles</span></div>
+			<div class="cube__face cube__face--bottom"><span data-id="80">World</span></div>
+		</div>
+
+		<div style="clear: both"></div>
+
+
+
+
+
+
+
+
+		<button id="roll" style="    margin: 20px auto;
+		display: block;
+		padding: 20px;">Roll the dice</button>
+
+
+
+		<div id="results">
+
+		</div>
+
+
+		<div id="history" style="display: none">
+
+			<div id="results_b">
+
+			</div>
+
+			<div id="delete">
+				Clear up history <i class="fas fa-recycle"></i>
+			</div>
+
+			<div style="clear: both"></div>
+		</div>
+
+
+
+
+
+	</section>
+</body>
+</html>
+
+
+
+<script>
+
+
+	var objSize = function(obj) {
+		var count = 0;
+
+		if (typeof obj == "object") {
+
+			if (Object.keys) {
+				count = Object.keys(obj).length;
+			} else if (window._) {
+				count = _.keys(obj).length;
+			} else if (window.$) {
+				count = $.map(obj, function() { return 1; }).length;
+			} else {
+				for (var key in obj) if (obj.hasOwnProperty(key)) count++;
+			}
+
+	}
+
+	return count;
+};
+
+
+var historyC = [];
+
+$("#delete").click(function()
+{
+	historyC = [];
+
+	displayHistory();
+});
+
+displayHistory();
+
+function displayHistory()
+{
+	var lenH = objSize(historyC);
+
+	if(lenH > 78) {
+		historyC = [];
+		var lenH = objSize(historyC);
+	}
+
+	var ids_s = [];
+	var ids_st = [];
+
+	if(!$.isEmptyObject(historyC))
+	{
+		$("#results_b").html("History: ");
+
+
+
+		for(i=0; i < lenH; i++ )
+		{
+			ids_s.push(historyC[i]['id']);
+			ids_st.push(historyC[i]['title']);
+			$("#results_b").append("<a href='https://atarotcards.com/meaning/" + historyC[i]['id'] + "-card/' target='_blank'>" + historyC[i]['title'] + "</a> ");
+		}
+
+		if(lenH > 1)
+		{
+			$("#results_b").append(". All cards combination: <a href='https://atarotcards.com/combinationcalculator/" + ids_s.join("-") + "/' target='_blank'>" + ids_st.join(",") + "</a> ");
+		}
+
+		$("#history").show();
+	}
+	else 
+	{
+		$("#history").slideUp();
+	}
+
+}
+
+
+function getRandomSide()
+{
+	var randomSide = Math.floor( Math.random() * 6 );
+	if(randomSide == 6) randomSide = 5;
+
+	if(randomSide == 0) return "front";
+	else if(randomSide == 1) return "right";
+	else if(randomSide == 2) return "back";
+	else if(randomSide == 3) return "left";
+	else if(randomSide == 4) return "top";
+	else if(randomSide == 5) return "bottom";
+}
+
+function cleanResults()
+{
+	$("#results").html("");
+}
+
+function getActiveClass()
+{
+	if($(".cube.focus").hasClass("show-back")) return "cube__face--back";
+	else if($(".cube.focus").hasClass("show-front")) return "cube__face--front";
+	else if($(".cube.focus").hasClass("show-right")) return "cube__face--right";
+	else if($(".cube.focus").hasClass("show-left")) return "cube__face--left";
+	else if($(".cube.focus").hasClass("show-top")) return "cube__face--top";
+	else if($(".cube.focus").hasClass("show-bottom")) return "cube__face--bottom";
+
+}
+
+function showResult()
+{
+	var activeFace = getActiveClass();
+
+	var activeId = $(".cube.focus ." + activeFace + " span").data("id");
+	var name = $(".cube.focus ." + activeFace + " span").text();
+
+	$("#results").html("Your tarot is : " + name + " . Read more about it <a href='https://atarotcards.com/meaning/" + activeId + "-card/' target='_blank'>" + name + "</a> ");
+
+	historyC.push({id: activeId, title: name});
+	displayHistory();
+
+	$(".cube").removeClass("focusout");
+}
+
+
+function getRandomNumber(min, max) 
+{
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min)) + min; 
+}
+
+function startRandom()
+{
+
+	var len = $(".cube").length;
+	var randomCube = getRandomNumber(23,50);
+
+	$(".cube").removeClass("focus").addClass("focusout");  
+
+
+	var time_per_all = 2000;
+	var per_step = time_per_all / randomCube;
+
+	var positionC = [];
+
+	for (let i = 0; i <= randomCube; i++) {
+
+		positionC[i] = i - ( Math.floor(i / 13) * 13 );
+
+		if(i == randomCube)
+		{
+
+			setTimeout(function () {
+
+				$(".cube").removeClass("focus");
+				$(".cube").addClass("focusout");
+				$(".cube").eq(positionC[i]).removeClass("focusout");
+				$(".cube").eq(positionC[i]).addClass("focus");
+
+				console.log("show cube for " + positionC[i]);
+				getCube(positionC[i]);
+
+			}, per_step * (i - 13) );
+		}
+		else 
+		{
+			setTimeout(function () {
+
+				$(".cube").removeClass("focus");
+				$(".cube").addClass("focusout");
+				$(".cube").eq(positionC[i]).removeClass("focusout");
+				$(".cube").eq(positionC[i]).addClass("focus");
+
+			}, per_step * (i - 13) );
+		}
+	}
+
+
+
+
+}
+
+function getCube(randomCube)
+{
+	var showClass = 'show-' + getRandomSide();
+	var randomSide = getRandomSide();
+
+	var randomRotates  = Math.floor( Math.random() * 4 ) + 2;
+
+	for (let i = 0; i <= randomRotates; i++) {
+
+		if(i == randomRotates)
+		{
+			setTimeout(function () {
+
+				$(".cube").eq(randomCube).removeClass('show-front show-right show-back show-left show-top show-bottom');
+				$(".cube").eq(randomCube).addClass( showClass );
+
+				$("#roll").removeClass("rolling");
+
+				showResult();
+
+			}, 1000 * i);
+		}
+		else 
+		{
+			setTimeout(function () {
+
+				$(".cube").eq(randomCube).removeClass('show-front show-right show-back show-left show-top show-bottom');
+				$(".cube").eq(randomCube).addClass( "show-" + getRandomSide() );
+
+			}, 1000 * i);
+		}
+	}
+
+}
+
+function changeSideRandom() {
+
+
+	startRandom();
+
+
+
+}
+
+
+
+
+$(document).ready(function()
+{
+
+
+	$('#roll').on("click push", function()
+	{
+		if(!$(this).hasClass("rolling"))
+		{
+			cleanResults();
+			$(this).addClass("rolling");
+			changeSideRandom();
+		}
+	});
+});
+
+</script>
+
