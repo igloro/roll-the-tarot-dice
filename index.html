@@ -155,6 +155,13 @@ body section {
 	margin-bottom: 10px;
 }
 
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 11px;
+  color: #3e1906
+}
+
 </style>
 
 
@@ -318,6 +325,11 @@ body section {
 
 
 	</section>
+
+  
+  <footer>
+    git https://github.com/igloro/roll-the-tarot-dice . all copyrights @ Roman Losev . atarotcards.com
+   </footer>
 </body>
 </html>
 
@@ -434,7 +446,7 @@ function showResult()
 	var activeId = $(".cube.focus ." + activeFace + " span").data("id");
 	var name = $(".cube.focus ." + activeFace + " span").text();
 
-	$("#results").html("Your tarot is : " + name + " . Read more about it <a href='https://atarotcards.com/meaning/" + activeId + "-card/' target='_blank'>" + name + "</a> ");
+	$("#results").html("Your tarot is: " + name + " . Read more about it <a href='https://atarotcards.com/meaning/" + activeId + "-card/' target='_blank'>" + name + "</a> ");
 
 	historyC.push({id: activeId, title: name});
 	displayHistory();
